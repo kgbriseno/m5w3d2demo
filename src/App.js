@@ -1,9 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
 import React from 'react'
 import Lists from './Lists.js';
 
-export default function App() {
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      alldata: [],
+      singledata: {
+        title: "",
+        author: ""
+      }
+    };
+  }
   getLists = () => {
     fetch("http://localhost:5000/posts")
     .then(res => res.json())
@@ -13,13 +22,13 @@ export default function App() {
         alldata:result
         })
       )
-      .catch(console.log);
+      .catch(err => console.log(err));
   };
   render() {
     const listTable = this.state.loading ? (
       <span>Loading Data.......Please be patient.</span>
     ) : (
-      <lists alldata={this.state.alldata}/>
+      <Lists alldata={this.state.alldata}/>
     );
   
     return (
@@ -38,3 +47,5 @@ export default function App() {
     );
   }
 };
+
+export default App;
